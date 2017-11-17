@@ -1,0 +1,44 @@
+#/bin/bash
+
+FILES="links/*"
+
+for FILENAME in $FILES
+	do
+	echo $FILENAME > temp_objno.txt 
+	beg=$(date +"%T")
+    
+	grep -r '<url>http' $FILENAME > temp.txt 
+	grep -r 'frame-g\|frame-r\|frame-i' temp.txt > $FILENAME
+	sed 's/<\/url>//' $FILENAME > temp.txt
+	sed 's/<url>//' temp.txt > $FILENAME
+	 which basically cuts the rm temp.txt
+
+	wget -i $FILENAME -P tempfits/.    
+	bzip2 -d tempfits/*.bz2
+    ls tempfits/*.fits > temp_filesindir.txt
+    
+	python cutfits.py
+	cd tempfits/
+    swarp g*
+    mv coadd.fits coadd_g.fits
+    swarp r*
+    mv coadd.fits coadd_r.fits
+    swarp i*
+    mv coadd.fits coadd_i.fits
+    cd ..
+
+    python colourimagesandcontouroverlays.py
+	sleep 20s ##########
+	rm tempfits/*
+
+    end=$(date +"%T")
+	#diff=$(echo "$end - $beg" | bc)
+	#echo $dif
+	echo $beg
+	echo $end
+
+	#break
+	done
+
+rm temp_filesindir.txt
+rm temp_objno.txt

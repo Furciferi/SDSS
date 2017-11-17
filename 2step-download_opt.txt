@@ -1,0 +1,2 @@
+http://skyserver.sdss.org/dr13/SkyServerWS/ImgCutout/getjpeg?TaskName=Skyserver.Chart.List&ra=247.14761111&dec=39.548403&scale=0.396&width=1818&height=1818&opt=
+
